@@ -1,0 +1,50 @@
+version: "3.8"
+
+services: 
+  runner:
+    image: mysql:latest
+    environment:
+      - "MYSQL_ROOT_PASSWORD=rootpass"
+      - "MYSQL_MASTER_PASSWORD=rootpass"
+      - "MYSQL_SLAVE_PASSWORD=rootpass"
+      - "MYSQL_REPLICATION_USER=root"
+      - "MYSQL_REPLICATION_PASSWORD=rootpass"
+    volumes:
+      - ./mysql_runner.sh:/tmp/mysql_runner.sh
+    command: /bin/bash -x /tmp/mysql_runner.sh
+    depends_on: 
+      - master
+      - slave
+  master:
+    image: mysql:latest
+    volumes: 
+      - ./conf/master.cnf:/etc/mysql/my.cnf
+      - ./data/master:/var/lib/mysql
+    ports: 
+      - 3306:3306
+    environment: 
+      MYSQL_ROOT_PASSWORD: "rootpass"
+      MYSQL_DATABASE: "pets"
+      MYSQL_USER: "master"
+      MYSQL_PASSWORD: "masterpassword"
+  slave:
+    image: mysql:latest
+    volumes: 
+      - ./conf/slave.cnf:/etc/mysql/my.cnf
+      - ./data/slave:/var/lib/mysql
+    ports: 
+      - 3307:3306
+    environment: 
+      MYSQL_ROOT_PASSWORD: "rootpass"
+      MYSQL_DATABASE: "pets"
+      MYSQL_USER: "slave"
+      MYSQL_PASSWORD: "slavepassword"
+    deploy:
+      replicas: 3
+      placement:
+        max_replicas_per_node: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure

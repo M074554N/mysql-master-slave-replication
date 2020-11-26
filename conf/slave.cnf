@@ -1,0 +1,11 @@
+# This is the configuration file for the Slave
+[mysqld]
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+datadir         = /var/lib/mysql
+secure-file-priv= NULL
+
+# Server ID of the Slave
+server-id=2
+
+skip_name_resolve=1

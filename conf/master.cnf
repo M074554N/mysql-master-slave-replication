@@ -1,0 +1,11 @@
+# This is the configuration file for the Master
+[mysqld]
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+datadir         = /var/lib/mysql
+secure-file-priv= NULL
+
+# Server ID of the Master
+server-id=1
+
+skip_name_resolve=1
