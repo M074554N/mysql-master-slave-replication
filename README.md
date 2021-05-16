@@ -7,7 +7,7 @@ You have to have docker engine latest version (or at least version `19.03.0+`) a
 
 #### Follow the steps
 
-- `git clone https://github.com/MohamedHassanWD/mysql-master-slave-replication.git`
+- `git clone https://github.com/M074554N/mysql-master-slave-replication.git`
 - `cd mysql-master-slave-replication`
 - `docker-compose up -d`
 
